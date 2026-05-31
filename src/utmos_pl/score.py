@@ -1,17 +1,20 @@
 
 
-import lightning_module
 import torch
 import torchaudio
 import unittest
+from typing import Optional
+
+from .lightning_module import BaselineLightningModule
+from .utils import TARGET_SR, download_utmos_ckpt
 
 class Score:
     """Predicting score for each audio clip."""
 
     def __init__(
         self,
-        ckpt_path: str = "epoch=3-step=7459.ckpt",
-        input_sample_rate: int = 16000,
+        ckpt_path: Optional[str] = None,
+        input_sample_rate: int = TARGET_SR,
         device: str = "cpu"):
         """
         Args:
@@ -19,14 +22,16 @@ class Score:
             input_sample_rate: sampling rate of input audio tensor. The input audio tensor
                 is automatically downsampled to 16kHz.
         """
+        if ckpt_path is None:
+            ckpt_path = str(download_utmos_ckpt())
         print(f"Using device: {device}")
         self.device = device
-        self.model = lightning_module.BaselineLightningModule.load_from_checkpoint(
+        self.model = BaselineLightningModule.load_from_checkpoint(
             ckpt_path).eval().to(device)
         self.in_sr = input_sample_rate
         self.resampler = torchaudio.transforms.Resample(
             orig_freq=input_sample_rate,
-            new_freq=16000,
+            new_freq=TARGET_SR,
             resampling_method="sinc_interpolation",
             lowpass_filter_width=6,
             dtype=torch.float32,
