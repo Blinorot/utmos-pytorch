@@ -197,6 +197,7 @@ class UTMOSScoreTorch(nn.Module):
         """
         Args:
             ckpt_path: path to pretrained state_dict of UTMOS strong learner.
+                If None, downloads weights from HuggingFace.
         """
         super().__init__()
         if ckpt_path is None:

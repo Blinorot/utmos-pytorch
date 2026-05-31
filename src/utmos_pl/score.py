@@ -19,6 +19,7 @@ class Score:
         """
         Args:
             ckpt_path: path to pretrained checkpoint of UTMOS strong learner.
+                If None, downloads weights from HuggingFace.
             input_sample_rate: sampling rate of input audio tensor. The input audio tensor
                 is automatically downsampled to 16kHz.
         """

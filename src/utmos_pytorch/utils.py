@@ -11,3 +11,12 @@ def download_utmos_ckpt() -> Path:
             repo_type="model",
         )
     )
+
+def download_scipted_utmos_ckpt() -> Path:
+    return Path(
+        hf_hub_download(
+            repo_id="Blinorot/UTMOS-PyTorch",
+            filename="utmos_scripted.pt",
+            repo_type="model",
+        )
+    )
