@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "utmos-pytorch"
+version = "0.1.0"
+description = "Unofficial fairseq-free PyTorch implementation of UTMOS"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    { name = "Petr Grinberg" }
+]
+dependencies = [
+    "torch>=2.2.0",
+    "huggingface_hub>=0.20",
+]
+
+keywords = [
+    "utmos",
+    "mos",
+    "speech-quality",
+    "audio",
+    "tts",
+    "neural-codec",
+    "pytorch",
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+]
+
+[project.urls]
+Homepage = "https://github.com/Blinorot/utmos-pytorch"
+Repository = "https://github.com/Blinorot/utmos-pytorch"
+Issues = "https://github.com/Blinorot/utmos-pytorch/issues"
+Model = "https://huggingface.co/Blinorot/UTMOS-PyTorch"
+Paper = "https://arxiv.org/abs/2204.02152"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["utmos_pytorch*"]
+
+[tool.setuptools]
+include-package-data = true
