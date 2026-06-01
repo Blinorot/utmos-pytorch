@@ -16,7 +16,7 @@ UTMOS-PyTorch
   <img src="https://img.shields.io/pypi/v/utmos-pytorch.svg?logo=pypi&logoColor=white" alt="PyPI version">
 </a>
 <a href="https://pypi.org/project/utmos-pytorch/">
-  <img src="https://img.shields.io/pypi/pyversions/utmos-pytorch.svg?logo=python&logoColor=white" alt="Python versions">
+  <img src="https://img.shields.io/pypi/pyversions/utmos-pytorch.svg?logo=python&logoColor=white&color=blue" alt="Python versions">
 </a>
 <a href="https://huggingface.co/Blinorot/UTMOS-PyTorch">
   <img src="https://img.shields.io/badge/HuggingFace-Model-yellow.svg?logo=huggingface&logoColor=white" alt="Hugging Face model">
