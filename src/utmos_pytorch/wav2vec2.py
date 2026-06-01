@@ -974,16 +974,12 @@ class Wav2Vec2Model(nn.Module):
         source: Tensor,
         padding_mask: Optional[Tensor] = None,
         mask: bool = False,
-        layer: Optional[int] = None,
-        corpus_key: Any = None,
     ) -> Tuple[Tensor, Optional[Tensor], Tensor]:
         return self.forward(
             source=source,
             padding_mask=padding_mask,
             mask=mask,
             features_only=True,
-            layer=layer,
-            corpus_key=corpus_key,
         )
 
     def remove_pretraining_modules(self, last_layer: Optional[int] = None):

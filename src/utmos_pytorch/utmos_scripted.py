@@ -14,7 +14,9 @@ def get_scripted_utmos(ckpt_path, device):
     """
     if ckpt_path is None:
         ckpt_path = str(download_scipted_utmos_ckpt())
-    return torch.jit.load(ckpt_path, map_location=device)
+    model = torch.jit.load(ckpt_path, map_location=device)
+    model.eval()
+    return model
 
 
 class UTMOSScoreScripted:
