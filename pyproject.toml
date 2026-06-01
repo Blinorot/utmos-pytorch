@@ -54,3 +54,9 @@ include = ["utmos_pytorch*"]
 
 [tool.setuptools]
 include-package-data = true
+
+[tool.setuptools.data-files]
+"LICENSES" = [
+    "LICENSES/FAIRSEQ_LICENSE",
+    "LICENSES/UTMOS_LICENSE",
+]

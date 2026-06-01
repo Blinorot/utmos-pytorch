@@ -68,8 +68,7 @@ The code requires:
 | PyTorch         | >=2.2.0 |
 | HuggingFace Hub | >=0.20  |
 
-The TorchScript checkpoint was scripted with `PyTorch 2.5.1`. Loading it with older
-PyTorch versions is not guaranteed; `PyTorch >=2.5.1` is recommended for the
+The TorchScript checkpoint was scripted with `PyTorch 2.5.1`. We have tested that it works on `PyTorch 2.2.0`, however, `PyTorch >=2.5.1` is recommended for the
 TorchScript variant.
 
 Then, you can run the model as follows:
