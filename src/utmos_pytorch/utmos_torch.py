@@ -199,11 +199,18 @@ class UTMOSScoreTorch(nn.Module):
     before passing to the model.
     """
 
-    def __init__(self, ckpt_path: Optional[str] = None, device: str = "cpu"):
+    def __init__(
+        self,
+        ckpt_path: Optional[str] = None,
+        device: str = "cpu",
+        verbose: bool = False,
+    ):
         """
         Args:
-            ckpt_path: path to pretrained state_dict of UTMOS strong learner.
+            ckpt_path (str | None): path to pretrained state_dict of UTMOS strong learner.
                 If None, downloads weights from HuggingFace.
+            device (str): device to put the model on.
+            verbose (bool): if True, show missed and unexpected keys during loading.
         """
         super().__init__()
         if ckpt_path is None:
@@ -212,9 +219,9 @@ class UTMOSScoreTorch(nn.Module):
         self.device = device
         self.model = UTMOSModel()
         self.model.to(device)
-        self.load_utmos_weights(ckpt_path, device)
+        self.load_utmos_weights(ckpt_path, device, verbose)
 
-    def load_utmos_weights(self, ckpt_path, device):
+    def load_utmos_weights(self, ckpt_path, device, verbose):
         """
         Loads converted weights.
         """
@@ -224,17 +231,18 @@ class UTMOSScoreTorch(nn.Module):
                 f"Missing {ckpt_path}. Run export_lightning_state_dict() first."
             )
 
-        state_dict = torch.load(ckpt_path, map_location=device)
+        state_dict = torch.load(ckpt_path, map_location=device, weights_only=True)
         missing_keys, unexpected_keys = self.model.load_state_dict(
             state_dict, strict=False
         )
-        print("Torch UTMOS Missing keys:")
-        for k in missing_keys:
-            print(k)
+        if verbose:
+            print("Torch UTMOS Missing keys:")
+            for k in missing_keys:
+                print(k)
 
-        print("Torch UTMOS Unexpected keys:")
-        for k in unexpected_keys:
-            print(k)
+            print("Torch UTMOS Unexpected keys:")
+            for k in unexpected_keys:
+                print(k)
 
         self.model.eval()
 

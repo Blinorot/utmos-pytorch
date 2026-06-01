@@ -37,8 +37,9 @@ class UTMOSScoreScripted:
     def __init__(self, ckpt_path: Optional[str] = None, device: str = "cpu"):
         """
         Args:
-            ckpt_path: path to pretrained state_dict of UTMOS strong learner.
+            ckpt_path (str | None): path to pretrained state_dict of UTMOS strong learner.
                 If None, downloads weights from HuggingFace.
+            device (str): device to put the model on.
         """
         super().__init__()
         self.device = device
