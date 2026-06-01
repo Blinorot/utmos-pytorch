@@ -1,15 +1,17 @@
-import torchaudio
+import argparse
+
+import numpy as np
 import torch
+import torchaudio
+import wget
+from huggingface_hub import HfApi, create_repo
+
 from src.utmos_pl import UTMOSScore
 from src.utmos_pytorch import UTMOSScoreTorch
-import wget
-import argparse
-from huggingface_hub import HfApi, create_repo
-import numpy as np
-
-from utils import SCRIPT_DATA_DIR, ASSET_DATA_DIR, TARGET_SR
+from utils import ASSET_DATA_DIR, SCRIPT_DATA_DIR, TARGET_SR
 
 SCRIPTED_CHECKPOINT = "utmos_scripted.pt"
+
 
 def create_scripted_model(args):
     asset_url = "https://keithito.com/LJ-Speech-Dataset/LJ037-0171.wav"
@@ -29,7 +31,7 @@ def create_scripted_model(args):
 
     # # create TorchScript version
     script_utmos = torch.jit.script(torch_utmos)
-        
+
     orig_score = orig_utmos.score(wav)
     print(f"Orig. UTMOS: {orig_score}")
 

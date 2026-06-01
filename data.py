@@ -3,12 +3,12 @@ import os
 import shutil
 from pathlib import Path
 
-from torch.utils.data import Dataset
 import torchaudio
+import wget
+from torch.utils.data import Dataset
 from tqdm import tqdm
 
 from utils import ROOT_DIR, TARGET_SR
-import wget
 
 URL_LINKS = {
     "dev-clean": "https://www.openslr.org/resources/12/dev-clean.tar.gz",
@@ -51,7 +51,7 @@ class LibrispeechDataset(Dataset):
         if sr != TARGET_SR:
             wav = torchaudio.functional.resample(wav, orig_freq=sr, new_freq=TARGET_SR)
         return wav
-    
+
     def __len__(self):
         return len(self.index)
 

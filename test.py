@@ -1,20 +1,16 @@
+import argparse
+
+import numpy as np
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
 from tqdm.auto import tqdm
-import numpy as np
-import argparse
 
-from src.utmos_pl import UTMOSScore
-from src.utmos_pytorch import UTMOSScoreTorch, UTMOSScoreScripted
 from data import LibrispeechDataset
+from src.utmos_pl import UTMOSScore
+from src.utmos_pytorch import UTMOSScoreScripted, UTMOSScoreTorch
 
 
-def test_scores_on_dataset(
-    orig_utmos,
-    torch_utmos,
-    script_utmos,
-    dataset
-):
+def test_scores_on_dataset(orig_utmos, torch_utmos, script_utmos, dataset):
     final_orig_score = 0
     final_torch_score = 0
     final_script_score = 0
@@ -56,8 +52,8 @@ def test_scores_on_dataset(
 
 
 def collate_fn(wav_list):
-    wav_list = [elem.transpose(-1, -2) for elem in wav_list] # T x 1
-    wav = pad_sequence(wav_list, batch_first=True, padding_value=0) # B x T x 1
+    wav_list = [elem.transpose(-1, -2) for elem in wav_list]  # T x 1
+    wav = pad_sequence(wav_list, batch_first=True, padding_value=0)  # B x T x 1
     return wav.transpose(-1, -2)
 
 
@@ -68,8 +64,13 @@ def test_scores_on_dataset_batched(
     dataset,
     batch_size=2,
 ):
-    loader = DataLoader(dataset, batch_size=batch_size, collate_fn=collate_fn,
-                        shuffle=False, drop_last=False)
+    loader = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        collate_fn=collate_fn,
+        shuffle=False,
+        drop_last=False,
+    )
     final_orig_score = 0
     final_torch_score = 0
     final_script_score = 0
@@ -142,7 +143,7 @@ if __name__ == "__main__":
             orig_utmos=orig_utmos,
             torch_utmos=torch_utmos,
             script_utmos=script_utmos,
-            dataset=dataset
+            dataset=dataset,
         )
         print("Test passed successfully")
     else:

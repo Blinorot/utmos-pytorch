@@ -1,8 +1,10 @@
-from src.utmos_pl import UTMOSScore
-from pathlib import Path
-import torch
 import argparse
-from huggingface_hub import create_repo, HfApi
+from pathlib import Path
+
+import torch
+from huggingface_hub import HfApi, create_repo
+
+from src.utmos_pl import UTMOSScore
 
 DATA_DIR = Path(__file__).resolve().parent / "data" / "checkpoints"
 STATE_DICT_NAME = "utmos_state_dict.pt"
