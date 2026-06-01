@@ -1,6 +1,8 @@
-from .utils import download_scipted_utmos_ckpt
-import torch
 from typing import Optional
+
+import torch
+
+from .utils import download_scipted_utmos_ckpt
 
 
 def get_scripted_utmos(ckpt_path, device):
@@ -28,14 +30,11 @@ class UTMOSScoreScripted:
     Accepts audio in 16kHz sampling rate. The audio should be resampled by the user
     before passing to the model.
 
-    This class is a thin wrapper around get_scripted_utmos that makes the supported 
+    This class is a thin wrapper around get_scripted_utmos that makes the supported
     arguments and call semantics explicit.
     """
 
-    def __init__(
-        self,
-        ckpt_path: Optional[str] = None,
-        device: str = "cpu"):
+    def __init__(self, ckpt_path: Optional[str] = None, device: str = "cpu"):
         """
         Args:
             ckpt_path: path to pretrained state_dict of UTMOS strong learner.
@@ -55,7 +54,7 @@ class UTMOSScoreScripted:
             scores (torch.Tensor): tensor with B scores, one per element in batch.
         """
         return self.forward(wavs)
-    
+
     def forward(self, wavs: torch.Tensor) -> torch.Tensor:
         """
         Args:
@@ -65,7 +64,7 @@ class UTMOSScoreScripted:
             scores (torch.Tensor): tensor with B scores, one per element in batch.
         """
         return self.model(wavs)
-    
+
     @torch.no_grad()
     def score(self, wavs: torch.Tensor) -> torch.Tensor:
         """

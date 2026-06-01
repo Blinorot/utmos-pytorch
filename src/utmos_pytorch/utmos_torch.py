@@ -1,10 +1,11 @@
+import os
+from typing import Optional
+
 import torch
 import torch.nn as nn
-from typing import Optional
-import os
 
-from .wav2vec2 import Wav2Vec2Model, Wav2Vec2Config
 from .utils import download_utmos_ckpt
+from .wav2vec2 import Wav2Vec2Config, Wav2Vec2Model
 
 
 class SSL_model(nn.Module):
@@ -64,15 +65,20 @@ class LDConditioner(nn.Module):
 
     def forward(self, ssl_feature, domain_feature, wav, domains, judge_id):
         judge_ids = judge_id
-        
+
         concatenated_feature = torch.cat(
-            (ssl_feature, domain_feature.unsqueeze(1).expand(-1, ssl_feature.size(1), -1),),
+            (
+                ssl_feature,
+                domain_feature.unsqueeze(1).expand(-1, ssl_feature.size(1), -1),
+            ),
             dim=2,
         )
         concatenated_feature = torch.cat(
             (
                 concatenated_feature,
-                self.judge_embedding(judge_ids).unsqueeze(1).expand(-1, concatenated_feature.size(1), -1),
+                self.judge_embedding(judge_ids)
+                .unsqueeze(1)
+                .expand(-1, concatenated_feature.size(1), -1),
             ),
             dim=2,
         )
@@ -89,7 +95,10 @@ class Projection(nn.Module):
         #     self.proj = nn.Tanh()
 
         self.net = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim), activation, nn.Dropout(0.3), nn.Linear(hidden_dim, output_dim),
+            nn.Linear(input_dim, hidden_dim),
+            activation,
+            nn.Dropout(0.3),
+            nn.Linear(hidden_dim, output_dim),
         )
         self.output_dim = output_dim
 
@@ -127,7 +136,7 @@ class UTMOSModel(nn.Module):
         ssl_out_dim = 768
         cfg = Wav2Vec2Config()
         wav2vec = Wav2Vec2Model(cfg)
-        
+
         self.feature_extractors = nn.ModuleList(
             [
                 SSL_model(wav2vec, ssl_out_dim),
@@ -190,10 +199,7 @@ class UTMOSScoreTorch(nn.Module):
     before passing to the model.
     """
 
-    def __init__(
-        self,
-        ckpt_path: Optional[str] = None,
-        device: str = "cpu"):
+    def __init__(self, ckpt_path: Optional[str] = None, device: str = "cpu"):
         """
         Args:
             ckpt_path: path to pretrained state_dict of UTMOS strong learner.
@@ -219,7 +225,9 @@ class UTMOSScoreTorch(nn.Module):
             )
 
         state_dict = torch.load(ckpt_path, map_location=device)
-        missing_keys, unexpected_keys = self.model.load_state_dict(state_dict, strict=False)
+        missing_keys, unexpected_keys = self.model.load_state_dict(
+            state_dict, strict=False
+        )
         print("Torch UTMOS Missing keys:")
         for k in missing_keys:
             print(k)
@@ -235,7 +243,7 @@ class UTMOSScoreTorch(nn.Module):
         for module in self.model.modules():
             if isinstance(module, torch.nn.LSTM):
                 module.flatten_parameters()
-    
+
     def forward(self, wavs: torch.Tensor) -> torch.Tensor:
         """
         Args:
@@ -262,7 +270,7 @@ class UTMOSScoreTorch(nn.Module):
         )
 
         return output.mean(dim=1).squeeze(1).cpu() * 2 + 3
-    
+
     @torch.no_grad()
     def score(self, wavs: torch.Tensor) -> torch.Tensor:
         """

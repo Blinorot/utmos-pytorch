@@ -1,13 +1,12 @@
 import math
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Any, Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
 from torch.nn import Parameter
-
 
 """
 This module is adapted from https://github.com/facebookresearch/fairseq/.
@@ -241,7 +240,9 @@ class Fp32GroupNorm(nn.GroupNorm):
 
 
 def LayerNorm(normalized_shape, eps: float = 1e-5, elementwise_affine: bool = True):
-    return nn.LayerNorm(normalized_shape, eps=eps, elementwise_affine=elementwise_affine)
+    return nn.LayerNorm(
+        normalized_shape, eps=eps, elementwise_affine=elementwise_affine
+    )
 
 
 # ---------------------------------------------------------------------
@@ -361,11 +362,11 @@ class MultiheadAttention(nn.Module):
             embed_dim_to_check=self.embed_dim,
             num_heads=self.num_heads,
             in_proj_weight=torch.empty([0], device=query.device, dtype=query.dtype),
-            in_proj_bias=torch.cat(
-                (self.q_proj.bias, self.k_proj.bias, self.v_proj.bias)
-            )
-            if self.q_proj.bias is not None
-            else None,
+            in_proj_bias=(
+                torch.cat((self.q_proj.bias, self.k_proj.bias, self.v_proj.bias))
+                if self.q_proj.bias is not None
+                else None
+            ),
             bias_k=self.bias_k,
             bias_v=self.bias_v,
             add_zero_attn=self.add_zero_attn,
@@ -373,9 +374,11 @@ class MultiheadAttention(nn.Module):
             out_proj_weight=self.out_proj.weight,
             out_proj_bias=self.out_proj.bias,
             training=self.training,
-            key_padding_mask=key_padding_mask.to(torch.bool)
-            if key_padding_mask is not None
-            else None,
+            key_padding_mask=(
+                key_padding_mask.to(torch.bool)
+                if key_padding_mask is not None
+                else None
+            ),
             need_weights=need_weights,
             attn_mask=attn_mask,
             use_separate_proj_weight=True,
@@ -943,7 +946,9 @@ class Wav2Vec2Model(nn.Module):
                 )
             ] = 1
 
-            padding_mask = (1 - padding_mask.flip([-1]).cumsum(-1).flip([-1])).to(torch.bool)
+            padding_mask = (1 - padding_mask.flip([-1]).cumsum(-1).flip([-1])).to(
+                torch.bool
+            )
         else:
             padding_mask = None
 

@@ -1,7 +1,9 @@
 from pathlib import Path
+
 from huggingface_hub import hf_hub_download
 
 TARGET_SR = 16000
+
 
 def download_utmos_ckpt() -> Path:
     return Path(
@@ -11,6 +13,7 @@ def download_utmos_ckpt() -> Path:
             repo_type="model",
         )
     )
+
 
 def download_scipted_utmos_ckpt() -> Path:
     return Path(
