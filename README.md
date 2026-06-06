@@ -152,6 +152,8 @@ Accepted tensor shapes:
 
 The input should be a floating point PyTorch tensor. Stereo audio should be converted to mono before scoring. `utmos.score(wav)` returns a tensor of shape `(batch_size,)`, where each value is a predicted MOS score. Higher is better. **Batch size 1 is recommended to avoid padding-related score shifts.**
 
+Note that `score()` and `forward()` return the same values. The only difference is that `score()` is decorated with `torch.no_grad()` for convenient inference. Since the raw TorchScript module exposes `forward()`, it is called directly as `utmos(test_wav, ref_wav)` rather than through the package wrapper's `utmos.score(test_wav, ref_wav)`.
+
 API classes:
 
 | Class                | Description                                     |
