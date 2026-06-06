@@ -21,7 +21,7 @@ UTMOS-PyTorch
 <a href="https://huggingface.co/Blinorot/UTMOS-PyTorch">
   <img src="https://img.shields.io/badge/HuggingFace-Model-yellow.svg?logo=huggingface&logoColor=white" alt="Hugging Face model">
 </a>
-<a href="https://github.com/Blinorot/UTMOS-PyTorch/blob/main/LICENSE">
+<a href="https://github.com/Blinorot/utmos-pytorch/blob/main/LICENSE">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT">
 </a>
 <a href="https://arxiv.org/abs/2204.02152">
@@ -55,8 +55,8 @@ pip install utmos-pytorch
 Or from source:
 
 ```bash
-git clone https://github.com/Blinorot/UTMOS-PyTorch.git
-cd UTMOS-PyTorch
+git clone https://github.com/Blinorot/utmos-pytorch.git
+cd utmos-pytorch
 pip install -e .
 ```
 
