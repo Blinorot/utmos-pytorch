@@ -135,7 +135,7 @@ wav = wav.to(device)
 # calculate the score
 # accepts T, 1xT, Bx1xT
 with torch.no_grad():
-    utmos_score = utmos.score(wav) # tensor of shape (batch_size,)
+    utmos_score = utmos(wav) # tensor of shape (batch_size,)
 ```
 
 ### Notes
